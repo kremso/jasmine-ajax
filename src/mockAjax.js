@@ -4,14 +4,17 @@ getJasmineRequireObj().MockAjax = function($ajax) {
       stubTracker = new $ajax.StubTracker(),
       paramParser = new $ajax.ParamParser(),
       realAjaxFunction = global.XMLHttpRequest,
+      realXdr = global.XDomainRequest,
       mockAjaxFunction = $ajax.fakeRequest(global, requestTracker, stubTracker, paramParser);
 
     this.install = function() {
       global.XMLHttpRequest = mockAjaxFunction;
+      global.XDomainRequest = mockAjaxFunction;
     };
 
     this.uninstall = function() {
       global.XMLHttpRequest = realAjaxFunction;
+      global.XDomainRequest = realXdr;
 
       this.stubs.reset();
       this.requests.reset();
